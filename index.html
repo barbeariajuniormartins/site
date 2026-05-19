@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia Junio Martins | O melhor salão masculino de BH</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0a0a0a',
+                        darker: '#050505',
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            hover: '#F3D568'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS (Glassmorphism & Utils) -->
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Ocultar barra de rolagem durante o loader */
+        body.loading {
+            overflow: hidden;
+        }
+
+        /* Efeito Glassmorphism Premium */
+        .glass {
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.6) 0%, rgba(15, 15, 15, 0.4) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.5); /* Borda acende dourada */
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+        }
+
+        /* Loader Spinner Customizado */
+        .loader-ring {
+            width: 64px;
+            height: 64px;
+            border: 4px solid rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            border-top-color: #D4AF37;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Classes para iniciar elementos invisíveis para o GSAP */
+        .gsap-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body class="loading">
+
+    <!-- 1. PRELOADER -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-dark flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="loader-ring mb-4"></div>
+        <h2 class="font-heading font-bold text-gold tracking-widest uppercase text-sm animate-pulse">Carregando Estilo...</h2>
+    </div>
+
+    <!-- 2. HEADER NAVBAR -->
+    <header id="navbar" class="fixed top-0 w-full z-40 glass py-3 px-6 md:px-12 transition-all duration-300 gsap-hidden">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex-shrink-0">
+                <img src="./logo.jpg" alt="Logo Barbearia Junio Martins" class="h-14 w-auto rounded object-contain bg-white/5 p-1">
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#servicos" class="text-sm font-semibold tracking-wide hover:text-gold transition-colors">SERVIÇOS</a>
+                <a href="#localizacao" class="text-sm font-semibold tracking-wide hover:text-gold transition-colors">LOCALIZAÇÃO</a>
+                <a href="https://calendly.com/barbeariajuniormartins/agendamentos" target="_blank" class="border border-gold text-gold px-5 py-2 rounded uppercase text-sm font-bold hover:bg-gold hover:text-dark transition-all duration-300">
+                    Agendar
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-white focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-darker border-b border-gray-800 hidden flex-col items-center py-6 gap-6 shadow-2xl">
+            <a href="#servicos" class="text-lg font-medium mobile-link">Serviços</a>
+            <a href="#localizacao" class="text-lg font-medium mobile-link">Localização</a>
+            <a href="https://calendly.com/barbeariajuniormartins/agendamentos" target="_blank" class="bg-gold text-dark px-6 py-3 rounded uppercase text-sm font-bold w-3/4 text-center">
+                Agendar Agora
+            </a>
+        </div>
+    </header>
+
+    <!-- 3. HERO SECTION -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <!-- Imagem de fundo (Unsplash atualizado) -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2074&auto=format&fit=crop" alt="Ambiente Barbearia" class="w-full h-full object-cover">
+            <!-- Overlay escuro para garantir contraste -->
+            <div class="absolute inset-0 bg-gradient-to-b from-dark/95 via-dark/80 to-dark"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full text-center flex flex-col items-center">
+            <!-- Título Animado -->
+            <div class="overflow-hidden mb-4">
+                <h1 id="hero-title" class="font-heading text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight uppercase gsap-hidden">
+                    Bem-vindo a <br class="hidden md:block">
+                    <span class="text-gold">Barbearia Junio Martins</span>
+                </h1>
+            </div>
+            
+            <!-- Subtítulo -->
+            <p id="hero-subtitle" class="text-base md:text-xl text-gray-300 max-w-3xl mb-10 leading-relaxed font-light gsap-hidden">
+                Como principal Salão masculino de Belo Horizonte, a Barbearia Junio Martins tem tudo do que você precisa para manter seu visual e sua autoestima incríveis. Presenteie-se e agende um dos nossos serviços hoje mesmo.
+            </p>
+
+            <!-- CTA -->
+            <div id="hero-cta" class="gsap-hidden">
+                <a href="https://calendly.com/barbeariajuniormartins/agendamentos" target="_blank" class="inline-flex items-center justify-center bg-gold text-dark font-heading font-bold text-lg px-10 py-5 rounded-full hover:bg-gold-hover transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+                    AGENDAR AGORA <i class="fa-solid fa-arrow-right ml-3"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Indicador de Scroll -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce text-gray-500 hidden md:flex">
+            <span class="text-xs uppercase tracking-widest mb-2 font-heading">Rolar</span>
+            <i class="fa-solid fa-chevron-down text-gold"></i>
+        </div>
+    </section>
+
+    <!-- 4. NOSSOS SERVIÇOS -->
+    <section id="servicos" class="py-24 px-6 md:px-12 bg-dark relative">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-3xl md:text-5xl font-black text-white mb-4 uppercase section-title gsap-hidden">
+                    Nossos <span class="text-gold">Serviços</span>
+                </h2>
+                <p class="text-gray-400 text-lg section-title gsap-hidden">Nossas portas estão abertas!</p>
+            </div>
+
+            <!-- Grid de Serviços Estilo Menu Premium -->
+            <div class="max-w-5xl mx-auto glass p-6 md:p-12 rounded-3xl mb-16 shadow-2xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4 md:gap-y-6">
+                    
+                    <!-- 1 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Corte de Cabelo</h3>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 40<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 2 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Design de Barba</h3>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 25<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 3 (COMBO DESTAQUE) -->
+                    <div class="flex justify-between items-end border-b border-gold/30 pb-4 service-item gsap-hidden hover:border-gold transition-colors duration-300 bg-gold/5 p-3 rounded-lg md:-mx-3 md:px-3 mt-2 md:mt-0">
+                        <div class="pr-4">
+                            <span class="text-[10px] font-bold bg-gold text-dark px-2 py-0.5 rounded uppercase tracking-wider mb-1 inline-block">Combo</span>
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-gold">Corte + Barba + Sobrancelha</h3>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 50<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 4 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Progressiva Masculino</h3>
+                            <span class="text-xs text-gray-500 uppercase tracking-wider block mt-1">A partir de</span>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 65<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 5 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Pezinho</h3>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 15<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 6 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Sobrancelha</h3>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 20<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 7 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Platinado</h3>
+                            <span class="text-xs text-gray-500 uppercase tracking-wider block mt-1">A partir de</span>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 155<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 8 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Luzes Masculino</h3>
+                            <span class="text-xs text-gray-500 uppercase tracking-wider block mt-1">A partir de</span>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 35<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 9 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Depilação Narina <span class="text-gray-400 font-normal text-base">"Cera"</span></h3>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 25<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 10 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Depilação Pescoço</h3>
+                            <span class="text-xs text-gray-500 block mt-1">Embaixo da barba</span>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 30<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 11 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Corte Infantil</h3>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 45<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 12 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Tintura</h3>
+                            <span class="text-xs text-gray-500 uppercase tracking-wider block mt-1">A partir de</span>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 30<span class="text-sm">,00</span></div>
+                    </div>
+
+                    <!-- 13 -->
+                    <div class="flex justify-between items-end border-b border-white/5 pb-4 service-item gsap-hidden hover:border-gold/50 transition-colors duration-300 md:col-span-2 mt-4">
+                        <div class="pr-4">
+                            <h3 class="font-heading font-bold text-lg md:text-xl text-white">Relaxamento</h3>
+                        </div>
+                        <div class="text-gold font-bold text-xl md:text-2xl font-heading whitespace-nowrap">R$ 30<span class="text-sm">,00</span></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Botão de Agendamento Secundário -->
+            <div class="text-center cta-bottom gsap-hidden">
+                <a href="https://calendly.com/barbeariajuniormartins/agendamentos" target="_blank" class="inline-block border-2 border-gold text-gold font-heading font-bold text-lg px-12 py-4 rounded-full hover:bg-gold hover:text-dark transition-all duration-300">
+                    Clique para agendar
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. FOOTER (RODAPÉ E CONTATO) -->
+    <footer id="localizacao" class="bg-darker pt-20 pb-10 px-6 border-t border-white/5">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16">
+            
+            <!-- Logo & About -->
+            <div class="md:col-span-4 flex flex-col items-center md:items-start footer-col gsap-hidden">
+                <img src="./logo.jpg" alt="Logo Junio Martins" class="h-20 mb-6 rounded bg-white/5 p-2">
+                <p class="text-gray-400 text-center md:text-left mb-6 text-sm leading-relaxed">
+                    O principal Salão masculino de Belo Horizonte. Ajudando homens a encontrar sua melhor versão.
+                </p>
+                <!-- Redes Sociais -->
+                <div class="flex gap-4">
+                    <a href="https://www.instagram.com/juniomartins1?igsh=MXNveHpxZmp6MjFzYg%3D%3D" target="_blank" class="w-12 h-12 rounded-full glass flex items-center justify-center text-white hover:bg-gold hover:text-dark transition-colors duration-300 text-xl" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Horários -->
+            <div class="md:col-span-4 footer-col gsap-hidden">
+                <h4 class="font-heading font-bold text-xl text-white mb-6 uppercase tracking-wider border-b border-white/10 pb-3">Horários</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li class="flex justify-between items-center">
+                        <span class="font-medium text-white">Segunda</span>
+                        <span>14:00 às 19:00</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <span class="font-medium text-white">Terça a Sábado</span>
+                        <span>08:00 às 19:00</span>
+                    </li>
+                    <li class="flex justify-between items-center text-gray-600">
+                        <span>Domingo</span>
+                        <span>Fechado</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contato & Localização -->
+            <div class="md:col-span-4 footer-col gsap-hidden">
+                <h4 class="font-heading font-bold text-xl text-white mb-6 uppercase tracking-wider border-b border-white/10 pb-3">Onde Estamos</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-location-dot mt-1.5 mr-4 text-gold text-lg w-5 text-center"></i>
+                        <span>
+                            <strong class="text-white block font-medium">Rua Mariana Oliveira Tavares, nº 23</strong>
+                            2º andar <br>
+                            Ouro Preto, Pampulha <br>
+                            Belo Horizonte - MG
+                        </span>
+                    </li>
+                    <li class="flex items-center pt-2">
+                        <i class="fa-brands fa-whatsapp mr-4 text-gold text-lg w-5 text-center"></i>
+                        <a href="https://wa.me/5531987572898" target="_blank" class="hover:text-gold transition-colors">(31) 98757-2898</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-600 text-sm">
+            <p>&copy; 2026 Barbearia Junio Martins. Todos os direitos reservados.</p>
+            <p>Desenvolvido por <a href="https://raphaelferrari.dev.br/" target="_blank" class="text-white hover:text-gold transition-colors font-medium">Raphael Ferrari</a></p>
+        </div>
+    </footer>
+
+    <!-- 6. BOTÃO FLUTUANTE WHATSAPP -->
+    <a href="https://wa.me/5531987572898" target="_blank" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-[0_4px_14px_rgba(37,211,102,0.4)] z-50 hover:scale-110 transition-transform animate-pulse" aria-label="Fale conosco no WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- GSAP & ScrollTrigger Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Registrar plugin de scroll
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Lógica do Preloader (Exatamente 1 segundo)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                
+                // Fade out no preloader
+                gsap.to(preloader, {
+                    opacity: 0,
+                    duration: 0.5,
+                    onComplete: () => {
+                        preloader.style.display = 'none';
+                        document.body.classList.remove('loading');
+                        
+                        // Após fechar o loader, iniciar as animações da Hero
+                        initHeroAnimations();
+                        initScrollAnimations();
+                    }
+                });
+            }, 1000); // 1000ms = 1 segundo cravado
+        });
+
+        // Animações da Hero Section (Acontece logo após o load)
+        function initHeroAnimations() {
+            const tl = gsap.timeline();
+
+            // Navbar descendo
+            gsap.set("#navbar", { autoAlpha: 1 });
+            tl.from("#navbar", { y: -100, opacity: 0, duration: 0.8, ease: "power3.out" })
+            
+            // Título subindo (revelação de baixo pra cima)
+            gsap.set("#hero-title", { autoAlpha: 1 });
+            tl.from("#hero-title", { y: 100, opacity: 0, duration: 1, ease: "power4.out" }, "-=0.4")
+            
+            // Subtítulo fade in
+            gsap.set("#hero-subtitle", { autoAlpha: 1 });
+            tl.from("#hero-subtitle", { y: 30, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+            
+            // Botão CTA pulando sutilmente
+            gsap.set("#hero-cta", { autoAlpha: 1 });
+            tl.from("#hero-cta", { scale: 0.8, opacity: 0, duration: 0.6, ease: "back.out(1.7)" }, "-=0.5");
+        }
+
+        // Animações acionadas por Scroll
+        function initScrollAnimations() {
+            // Título da seção serviços
+            gsap.set(".section-title", { autoAlpha: 1 });
+            gsap.from(".section-title", {
+                scrollTrigger: {
+                    trigger: "#servicos",
+                    start: "top 80%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2
+            });
+
+            // Cards de Serviços (Stagger - entram em cascata)
+            gsap.set(".service-item", { autoAlpha: 1 });
+            gsap.from(".service-item", {
+                scrollTrigger: {
+                    trigger: ".grid",
+                    start: "top 85%",
+                },
+                y: 60,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.1, // Atraso entre um card e outro
+                ease: "power2.out"
+            });
+
+            // CTA Secundário
+            gsap.set(".cta-bottom", { autoAlpha: 1 });
+            gsap.from(".cta-bottom", {
+                scrollTrigger: {
+                    trigger: ".cta-bottom",
+                    start: "top 90%",
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.6
+            });
+
+            // Colunas do Footer
+            gsap.set(".footer-col", { autoAlpha: 1 });
+            gsap.from(".footer-col", {
+                scrollTrigger: {
+                    trigger: "footer",
+                    start: "top 85%",
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2
+            });
+        }
+
+        // Script para Menu Mobile
+        const btnMenu = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const icon = btnMenu.querySelector('i');
+
+        function toggleMenu() {
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+            
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+
+        btnMenu.addEventListener('click', toggleMenu);
+        
+        // Fechar menu ao clicar em um link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
+</body>
+</html>
